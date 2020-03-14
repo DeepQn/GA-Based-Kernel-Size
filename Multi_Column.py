@@ -499,7 +499,7 @@ def main():
     popSize = 10
 
     global indDim
-    indDim = 4
+    indDim = 9
 
     model = Basic_Net()
     if cuda:
