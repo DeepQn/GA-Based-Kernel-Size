@@ -8,6 +8,7 @@ from torch.autograd import Variable
 import time
 import os.path
 
+# only 3x3, 5x5, 7x7 kernel sizes are used
 kernel_choices = [3, 5, 7]
 num_epochs = 100
 batch_size = 250
@@ -42,6 +43,7 @@ transform = transforms.Compose([
 num_input_channel = 1
 
 
+# reshaping the output feature map of the CNN to a shape of 4x4
 def Reshape(tensor):
     pad_len = 4 - int(tensor.shape[2])
     paddind1 = nn.ZeroPad2d((1, 0, 1, 0))
@@ -58,6 +60,7 @@ def Reshape(tensor):
     return tensor
 
 
+# Definition class of the network
 class Basic_Net(nn.Module):
     def __init__(self):
         super(Basic_Net, self).__init__()
@@ -186,6 +189,7 @@ print("Validation Loader: ", len(val_loader))
 print("Test Loader: ", len(test_loader))
 
 
+# Function for initializing population
 def InitPopulation(pop_size, ind_dim):
     pop = []
     popDup = []
@@ -204,6 +208,7 @@ def InitPopulation(pop_size, ind_dim):
     return pop
 
 
+# Function for single point cross-over operation
 def SinglePointCrossover(ind1, ind2):
     size = min(len(ind1), len(ind2))
 
@@ -213,6 +218,7 @@ def SinglePointCrossover(ind1, ind2):
     return ind1, ind2
 
 
+# Function for two point cross-over operation
 def TwoPointCrossover(ind1, ind2):
     size = min(len(ind1), len(ind2))
 
@@ -229,6 +235,7 @@ def TwoPointCrossover(ind1, ind2):
     return ind1, ind2
 
 
+# Function for mutation operation performed randomly
 def RandomMutation(ind):
     num_index = random.randint(1, len(ind))
     index_list = []
@@ -245,6 +252,7 @@ def RandomMutation(ind):
     return ind
 
 
+# Function for calculating fitness value on the basis of test accuracy
 def FitnessValue(model, ind):
 
     if ind[0] == 3 or 5:
@@ -330,6 +338,7 @@ def FindFitnessScore(model, pop):
     return fitness_list
 
 
+# Function for parent selection
 def GeneSelection(pop, fitness_list):
     fitness_val_list = fitness_list.copy()
 
@@ -354,6 +363,7 @@ def GeneSelection(pop, fitness_list):
     return chromosome1, chromosome2
 
 
+# Function for performing genetic process stepwise
 def GeneticProcess(model, pop, fitness_list):
     ind1, ind2 = GeneSelection(pop, fitness_list)
     ind1, ind2 = SinglePointCrossover(ind1, ind2)
@@ -373,6 +383,7 @@ def GeneticProcess(model, pop, fitness_list):
     return max_fit_val, max_fit_ind
 
 
+# Function for updating better fit individuals to the initial population
 def UpdatePopulation(model, pop, fitness_list):
     fitness_value_list = fitness_list.copy()
 
@@ -391,6 +402,7 @@ def UpdatePopulation(model, pop, fitness_list):
     return pop, fitness_list
 
 
+# Function for training the neural network
 def Train(model, optimizer, trainLoader, loss_fun):
     average_time = 0
     total = 0
@@ -422,6 +434,7 @@ def Train(model, optimizer, trainLoader, loss_fun):
         correct += (predicted == labels).sum().item()
 
 
+# Function for finding accuracy on validation-set or test-set
 def Eval(model, testLoader):
     model.eval()
 
@@ -446,11 +459,13 @@ def Eval(model, testLoader):
     return correct / total
 
 
+# Saving the network parameters (weights and biases)
 def save_checkpoint(state, is_best, filename="Architecture/checkpoint.pth.tar"):
     if is_best:
         torch.save(state, filename)
 
 
+# Function for performing training and evaluation operation
 def Train_Eval_Epoch(model):
     global learning_rate, best_accuracy, start_epoch, epoch
     for epoch in range(num_epochs):
