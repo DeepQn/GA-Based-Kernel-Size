@@ -171,15 +171,15 @@ class Basic_Net(nn.Module):
 
 
 print("Loading the dataset...")
-train_set = torchvision.datasets.ImageFolder(root="BengaliBMP/Train", transform=transform)
+train_set = torchvision.datasets.ImageFolder(root="DataSetName/Train", transform=transform)
 train_loader = torch.utils.data.DataLoader(train_set, batch_size=batch_size, shuffle=True)
 train_loader2 = torch.utils.data.DataLoader(train_set, batch_size=1, shuffle=True)
 
-val_set = torchvision.datasets.ImageFolder(root="BengaliBMP/Val", transform=transform)
+val_set = torchvision.datasets.ImageFolder(root="DataSetName/Val", transform=transform)
 val_loader = torch.utils.data.DataLoader(val_set, batch_size=batch_size, shuffle=True)
 val_loader2 = torch.utils.data.DataLoader(val_set, batch_size=1, shuffle=True)
 
-test_set = torchvision.datasets.ImageFolder(root="BengaliBMP/Test", transform=transform)
+test_set = torchvision.datasets.ImageFolder(root="DataSetName/Test", transform=transform)
 test_loader = torch.utils.data.DataLoader(test_set, batch_size=batch_size, shuffle=True)
 test_loader2 = torch.utils.data.DataLoader(test_set, batch_size=1, shuffle=True)
 print("Dataset is Loaded")
