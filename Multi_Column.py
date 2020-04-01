@@ -1,3 +1,6 @@
+# The file Multi_Column.py contains the python based implementation of our work
+#"A Genetic Algorithm based Kernel-size Selection Approach for a Multi-column Convolutional Neural Network"
+
 import random
 import torch
 import torch.nn as nn
